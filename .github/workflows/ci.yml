@@ -1,0 +1,32 @@
+name: CI - Pruebas automatizadas
+
+# Eventos de activación:
+# - push a main: verifica cada cambio publicado en la rama principal
+# - pull_request hacia main: verifica la corrección ANTES de integrarla
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  pruebas:
+    # Runner donde se ejecuta el job
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Obtener el código del repositorio
+      - name: Obtener el código
+        uses: actions/checkout@v4
+
+      # 2. Preparar el entorno de Node.js
+      - name: Preparar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # 3. Ejecutar las pruebas del proyecto
+      - name: Ejecutar pruebas
+        run: npm test
